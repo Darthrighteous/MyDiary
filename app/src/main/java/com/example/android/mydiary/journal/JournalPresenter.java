@@ -2,7 +2,6 @@ package com.example.android.mydiary.journal;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 /**
  * Created by Jalil on 26/06/2018.
@@ -24,8 +23,7 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     @Override
     public void loadEntries() {
-        Query query = mJournalEntriesDatabaseReference.orderByKey();
-        mJournalView.showJournalEntries(query);
+        mJournalEntriesDatabaseReference
     }
 
     @Override
@@ -53,6 +51,6 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     @Override
     public void start() {
-
+        loadEntries();
     }
 }

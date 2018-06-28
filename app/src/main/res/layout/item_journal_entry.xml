@@ -23,6 +23,8 @@
         android:id="@+id/text_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
         tools:text="This is the body of the entry, it will be really long..."/>
 
 </LinearLayout>
