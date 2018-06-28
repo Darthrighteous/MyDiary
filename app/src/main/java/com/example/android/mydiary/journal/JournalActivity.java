@@ -71,7 +71,7 @@ public class JournalActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.addNewEntry(mUserId);
+                mPresenter.addNewEntry();
             }
         });
 
@@ -105,8 +105,7 @@ public class JournalActivity extends AppCompatActivity
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     //signed in
-                    mUserId = user.getUid();
-                    mPresenter.signIn(user.getDisplayName(), user.getEmail(), mUserId);
+                    mPresenter.signIn();
                 } else {
                     //signed out
                     mPresenter.signOut();

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.example.android.mydiary.data.JournalEntry;
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +26,10 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     private ChildEventListener mChildEventListener;
 
+    private FirebaseAuth mFirebaseAuth;
+
+    private String mUserId;
+
     // Choose authentication providers
     List<AuthUI.IdpConfig> providers = Arrays.asList(
             new AuthUI.IdpConfig.EmailBuilder().build(),
@@ -37,17 +42,22 @@ public class JournalPresenter implements JournalContract.Presenter{
 
         mJournalView = journalView;
 
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mUserId = mFirebaseAuth.getCurrentUser().getUid();
+
         mJournalView.setPresenter(this);
     }
 
     @Override
     public void start() {
+        attachDatabaseReadListener();
 
     }
 
     @Override
-    public void attachDatabaseReadListener(String userId) {
-        mDatabaseReference = mDatabaseReference.child("users").child(userId).child("entries");
+    public void attachDatabaseReadListener() {
+
+        mDatabaseReference = mDatabaseReference.child("users").child(mUserId).child("entries");
         //only create and attach listener if it is null i.e. it has been detached
         if(mChildEventListener == null) {
             mChildEventListener = new ChildEventListener() {
@@ -91,9 +101,9 @@ public class JournalPresenter implements JournalContract.Presenter{
     }
 
     @Override
-    public void signIn(String username, String emailAddress, String userId) {
-        attachDatabaseReadListener(userId);
-        mJournalView.displayUserInfo(username, emailAddress);
+    public void signIn() {
+        mJournalView.displayUserInfo(mFirebaseAuth.getCurrentUser().getDisplayName(),
+                mFirebaseAuth.getCurrentUser().getEmail());
 
     }
 
@@ -118,8 +128,8 @@ public class JournalPresenter implements JournalContract.Presenter{
     }
 
     @Override
-    public void addNewEntry(String userId) {
-        mJournalView.showAddEntry(userId);
+    public void addNewEntry() {
+        mJournalView.showAddEntry();
     }
 
 }

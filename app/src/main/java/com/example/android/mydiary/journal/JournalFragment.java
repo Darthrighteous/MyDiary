@@ -33,6 +33,8 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     private JournalEntryAdapter mAdapter;
 
 
+
+
     public JournalFragment() {
         // Required empty public constructor
     }
@@ -84,7 +86,7 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        mPresenter.attachDatabaseReadListener();
     }
 
     @Override
@@ -136,9 +138,8 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     }
 
     @Override
-    public void showAddEntry(String userId) {
+    public void showAddEntry() {
         Intent addEntryIntent = new Intent(getContext(), AddEntryActivity.class);
-        addEntryIntent.putExtra(JournalContract.UNIQUE_USER_ID , userId);
         startActivityForResult(addEntryIntent, AddEntryActivity.REQUEST_ADD_ENTRY);
     }
 
