@@ -1,7 +1,6 @@
 package com.example.android.mydiary.journal;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,12 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.android.mydiary.R;
-import com.example.android.mydiary.data.JournalEntry;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class JournalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,19 +21,23 @@ public class JournalActivity extends AppCompatActivity
 
     private DrawerLayout mDrawer;
 
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mJournalEntriesDatabaseReference;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journal);
 
+        //setup Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        //initialize firebase database stuff
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mJournalEntriesDatabaseReference = mFirebaseDatabase.getReference().child("entries");
-
+        //setup Drawer
+        mDrawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.addDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         //initialize the fragment and add it to the layout
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -48,39 +47,16 @@ public class JournalActivity extends AppCompatActivity
         if (journalFragment == null) {
             //Create the journal fragment
             journalFragment = JournalFragment.newInstance();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.add(R.id.contentFrame, journalFragment);
-            transaction.commit();
+
         }
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.contentFrame, journalFragment);
+        transaction.commit();
 
         //create the presenter
-        mPresenter = new JournalPresenter(mJournalEntriesDatabaseReference, journalFragment);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO remove test code. testing the database
-                JournalEntry entry = new JournalEntry("test title", "test body");
-                mJournalEntriesDatabaseReference.push().setValue(entry);
-                mPresenter.addNewEntry();
-        }
-        });
-
+        mPresenter = new JournalPresenter(journalFragment);
         mPresenter.loadEntries();
-
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     @Override

@@ -1,30 +1,31 @@
 package com.example.android.mydiary.journal;
 
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 /**
  * Created by Jalil on 26/06/2018.
  */
 
-public class JournalPresenter implements JournalPresenterContract {
+public class JournalPresenter implements JournalContract.Presenter{
 
-    private JournalViewContract mJournalViewContract;
+    private JournalContract.View mJournalView;
 
     private DatabaseReference mJournalEntriesDatabaseReference;
 
-    public JournalPresenter(DatabaseReference databaseReference, JournalViewContract journalViewContract) {
-        mJournalEntriesDatabaseReference = databaseReference;
+    public JournalPresenter(JournalContract.View journalView) {
+        mJournalEntriesDatabaseReference = FirebaseDatabase.getInstance().getReference().child("entries");
 
-        mJournalViewContract = journalViewContract;
+        mJournalView = journalView;
 
-        mJournalViewContract.setPresenter(this);
+        mJournalView.setPresenter(this);
     }
 
     @Override
     public void loadEntries() {
-        Query query = mJournalEntriesDatabaseReference.limitToLast(50);
-        mJournalViewContract.showJournalEntries(query);
+        Query query = mJournalEntriesDatabaseReference.orderByKey();
+        mJournalView.showJournalEntries(query);
     }
 
     @Override
@@ -47,6 +48,11 @@ public class JournalPresenter implements JournalPresenterContract {
 
     @Override
     public void addNewEntry() {
+        mJournalView.showAddEntry();
+    }
+
+    @Override
+    public void start() {
 
     }
 }
