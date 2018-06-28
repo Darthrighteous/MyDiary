@@ -2,8 +2,8 @@ package com.example.android.mydiary.journal;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -14,10 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.android.mydiary.R;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +30,7 @@ public class JournalActivity extends AppCompatActivity
     private TextView mTextViewUsername;
     private TextView mTextViewEmail;
 
+    private String mUserId;
 
     //Firebase instance variables
     private FirebaseDatabase mFirebaseDatabase;
@@ -65,8 +66,16 @@ public class JournalActivity extends AppCompatActivity
         mTextViewEmail = headerView.findViewById(R.id.text_email_address);
 
 
+        //fab setup
+        FloatingActionButton fab = findViewById(R.id.fab_open_new_entry);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.addNewEntry(mUserId);
+            }
+        });
+
         //initialize the fragment and add it to the
-        final FrameLayout frameLayout = findViewById(R.id.contentFrame);
         FragmentManager fragmentManager = getSupportFragmentManager();
         JournalFragment journalFragment = (JournalFragment) fragmentManager
                 .findFragmentById(R.id.contentFrame);
@@ -83,7 +92,7 @@ public class JournalActivity extends AppCompatActivity
 
         //initialize firebase stuff
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mEntriesDatabaseReference = mFirebaseDatabase.getReference().child("entries");
+        mEntriesDatabaseReference = mFirebaseDatabase.getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         JournalFragment finalJournalFragment = journalFragment;
@@ -96,9 +105,8 @@ public class JournalActivity extends AppCompatActivity
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     //signed in
-                    mPresenter.signIn(user.getDisplayName(), user.getEmail());
-                    Snackbar.make(frameLayout, "You are now Signed In! Welcome to your diary",
-                            Snackbar.LENGTH_LONG).show();
+                    mUserId = user.getUid();
+                    mPresenter.signIn(user.getDisplayName(), user.getEmail(), mUserId);
                 } else {
                     //signed out
                     mPresenter.signOut();
@@ -136,6 +144,7 @@ public class JournalActivity extends AppCompatActivity
             mPresenter.openSettings();
             return true;
         } else if (id == R.id.action_logout){
+            AuthUI.getInstance().signOut(this);
             mPresenter.signOut();
             return true;
         }

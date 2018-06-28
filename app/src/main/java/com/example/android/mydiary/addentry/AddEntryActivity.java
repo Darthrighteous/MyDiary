@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.mydiary.R;
+import com.example.android.mydiary.journal.JournalContract;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -44,8 +45,11 @@ public class AddEntryActivity extends AppCompatActivity {
 
         //initialize firebase instance variables
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mEntriesDatabaseReference = mFirebaseDatabase.getReference().child("entries");
-
+        String userId = getIntent().getStringExtra(JournalContract.UNIQUE_USER_ID);
+        mEntriesDatabaseReference = mFirebaseDatabase.getReference()
+                .child("users")
+                .child(userId)
+                .child("entries");
 
         mPresenter = new AddEntryPresenter(mEntriesDatabaseReference, fragment);
 

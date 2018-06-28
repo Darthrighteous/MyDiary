@@ -14,6 +14,8 @@ import java.util.List;
 public interface JournalContract {
     int RC_SIGN_IN = 25;
 
+    String UNIQUE_USER_ID = "unique-uid";
+
     interface View extends BaseView<Presenter> {
         void displayUserInfo(String username, String emailAddress);
 
@@ -27,21 +29,21 @@ public interface JournalContract {
 
         void showEditEntry();
 
-        void showAddEntry();
+        void showAddEntry(String userId);
 
     }
 
     interface Presenter extends BasePresenter {
 
-        void attachDatabaseReadListener();
+        void attachDatabaseReadListener(String userId);
 
         void detachDatabaseReadListener();
 
-        void signIn(String username, String emailAddress);
+        void signIn(String username, String emailAddress, String userId);
 
         void signOut();
 
-        void addNewEntry();
+        void addNewEntry(String userId);
 
         void openEntryDetails();
 

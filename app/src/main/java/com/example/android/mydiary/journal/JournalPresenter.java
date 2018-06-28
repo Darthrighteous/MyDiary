@@ -42,11 +42,12 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     @Override
     public void start() {
-        attachDatabaseReadListener();
+
     }
 
     @Override
-    public void attachDatabaseReadListener() {
+    public void attachDatabaseReadListener(String userId) {
+        mDatabaseReference = mDatabaseReference.child("users").child(userId).child("entries");
         //only create and attach listener if it is null i.e. it has been detached
         if(mChildEventListener == null) {
             mChildEventListener = new ChildEventListener() {
@@ -90,7 +91,8 @@ public class JournalPresenter implements JournalContract.Presenter{
     }
 
     @Override
-    public void signIn(String username, String emailAddress) {
+    public void signIn(String username, String emailAddress, String userId) {
+        attachDatabaseReadListener(userId);
         mJournalView.displayUserInfo(username, emailAddress);
 
     }
@@ -116,8 +118,8 @@ public class JournalPresenter implements JournalContract.Presenter{
     }
 
     @Override
-    public void addNewEntry() {
-        mJournalView.showAddEntry();
+    public void addNewEntry(String userId) {
+        mJournalView.showAddEntry(userId);
     }
 
 }

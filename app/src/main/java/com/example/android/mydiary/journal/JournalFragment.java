@@ -1,17 +1,19 @@
 package com.example.android.mydiary.journal;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.mydiary.R;
 import com.example.android.mydiary.addentry.AddEntryActivity;
@@ -41,7 +43,17 @@ public class JournalFragment extends Fragment implements JournalContract.View {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        mPresenter.result();
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == JournalContract.RC_SIGN_IN) {
+            if(resultCode == Activity.RESULT_OK){
+                Snackbar.make(getActivity().findViewById(R.id.fab_open_new_entry),
+                        "You are now Signed In! Welcome to your diary",
+                        Snackbar.LENGTH_LONG).show();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(getContext(), "Sign in cancelled", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+            }
+        }
     }
 
     @Override
@@ -65,15 +77,6 @@ public class JournalFragment extends Fragment implements JournalContract.View {
         //listview setup
         ListView journalList = rootView.findViewById(R.id.list_view_journal);
         journalList.setAdapter(mAdapter);
-
-        //fab setup
-        FloatingActionButton fab = getActivity().findViewById(R.id.fab_open_new_entry);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.addNewEntry();
-            }
-        });
 
         return rootView;
     }
@@ -133,8 +136,9 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     }
 
     @Override
-    public void showAddEntry() {
+    public void showAddEntry(String userId) {
         Intent addEntryIntent = new Intent(getContext(), AddEntryActivity.class);
+        addEntryIntent.putExtra(JournalContract.UNIQUE_USER_ID , userId);
         startActivityForResult(addEntryIntent, AddEntryActivity.REQUEST_ADD_ENTRY);
     }
 
