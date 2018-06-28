@@ -23,7 +23,7 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     @Override
     public void loadEntries() {
-        mJournalEntriesDatabaseReference
+//        mJournalEntriesDatabaseReference
     }
 
     @Override

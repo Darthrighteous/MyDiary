@@ -36,7 +36,7 @@ public class JournalEntryAdapter extends ArrayAdapter<JournalEntry> {
         JournalEntry journalEntry = getItem(position);
 
         title.setText(journalEntry.getTitle());
-        title.setText(journalEntry.getBody());
+        body.setText(journalEntry.getBody());
 
         return convertView;
     }

@@ -4,9 +4,10 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.mydiary.journal.JournalFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_journal"
+    <ListView
+        android:id="@+id/list_view_journal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_journal_entry"/>
 
 </FrameLayout>
