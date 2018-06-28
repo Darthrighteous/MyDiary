@@ -43,7 +43,7 @@ public class JournalFragment extends Fragment implements JournalContract.View {
         View rootView = inflater.inflate(R.layout.fragment_journal, container, false);
 
 
-        FloatingActionButton fab = getActivity().findViewById(R.id.fab_new_entry);
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab_open_new_entry);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

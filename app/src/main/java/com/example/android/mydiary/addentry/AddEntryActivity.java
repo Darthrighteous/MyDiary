@@ -6,9 +6,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.mydiary.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AddEntryActivity extends AppCompatActivity {
     public static final int REQUEST_ADD_ENTRY = 101;
+
+    private AddEntryPresenter mPresenter;
+
+    //Firebase instance variables
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mEntriesDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,5 +42,18 @@ public class AddEntryActivity extends AppCompatActivity {
                 .replace(R.id.contentFrame, fragment)
                 .commit();
 
+        //initialize firebase instance variables
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mEntriesDatabaseReference = mFirebaseDatabase.getReference().child("entries");
+
+
+        mPresenter = new AddEntryPresenter(mEntriesDatabaseReference, fragment);
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
