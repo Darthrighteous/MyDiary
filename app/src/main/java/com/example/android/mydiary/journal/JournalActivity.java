@@ -63,8 +63,10 @@ public class JournalActivity extends AppCompatActivity
     public void onBackPressed() {
         if (mDrawer.isDrawerOpen(GravityCompat.START)){
             mDrawer.closeDrawer(GravityCompat.START);
+
+        } else {
+            super.onBackPressed();
         }
-        super.onBackPressed();
     }
 
     @Override
