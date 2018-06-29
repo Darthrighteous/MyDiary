@@ -19,8 +19,33 @@ import java.util.List;
  */
 
 public class JournalEntryAdapter extends ArrayAdapter<JournalEntry> {
+    private List<JournalEntry> mList;
+
+
     public JournalEntryAdapter(@NonNull Context context, int resource, @NonNull List<JournalEntry> objects) {
         super(context, resource, objects);
+        setList(objects);
+
+    }
+
+    public void setList(List<JournalEntry> list) {
+        mList = list;
+    }
+
+    public void updateData (List<JournalEntry> list) {
+        setList(list);
+        notifyDataSetChanged();
+    }
+
+    @Nullable
+    @Override
+    public JournalEntry getItem(int position) {
+        return mList.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return mList.size();
     }
 
     @NonNull

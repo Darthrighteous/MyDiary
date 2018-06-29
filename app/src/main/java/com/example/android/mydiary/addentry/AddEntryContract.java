@@ -17,7 +17,7 @@ public interface AddEntryContract {
 
         void showEmptyEntryError();
 
-        void showEntries();
+        void finishActivity();
 
     }
 

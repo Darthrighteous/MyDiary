@@ -6,4 +6,6 @@ package com.example.android.mydiary;
 
 public interface BasePresenter {
     void start();
+
+    void stop();
 }

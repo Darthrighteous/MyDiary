@@ -37,6 +37,11 @@ public class JournalEntry {
         return mBody;
     }
 
+    public boolean isEmpty() {
+        return (mTitle.isEmpty() || mTitle == null)
+                && (mBody.isEmpty() || mBody == null);
+    }
+
 //    public long getDateCreated() {
 //        return mDateCreated;
 //    }

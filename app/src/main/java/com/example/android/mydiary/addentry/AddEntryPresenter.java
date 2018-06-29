@@ -1,7 +1,7 @@
 package com.example.android.mydiary.addentry;
 
 import com.example.android.mydiary.data.JournalEntry;
-import com.google.firebase.database.DatabaseReference;
+import com.example.android.mydiary.data.source.FirebaseRepository;
 
 /**
  * Created by Jalil on 28/06/2018.
@@ -11,10 +11,11 @@ public class AddEntryPresenter implements AddEntryContract.Presenter {
 
     private AddEntryContract.View mAddEntryView;
 
-    private DatabaseReference mDatabaseReference;
+    private FirebaseRepository mFirebaseRepository;
 
-    public AddEntryPresenter(DatabaseReference databaseReference, AddEntryContract.View addEntryView) {
-        mDatabaseReference = databaseReference;
+
+    public AddEntryPresenter(String userUId, AddEntryContract.View addEntryView) {
+        mFirebaseRepository = new FirebaseRepository(userUId);
 
         mAddEntryView = addEntryView;
         mAddEntryView.setPresenter(this);
@@ -26,10 +27,20 @@ public class AddEntryPresenter implements AddEntryContract.Presenter {
     }
 
     @Override
+    public void stop() {
+
+    }
+
+    @Override
     public void saveEntry(String title, String body) {
         JournalEntry newEntry = new JournalEntry(title, body);
-        mDatabaseReference.push().setValue(newEntry);
-        mAddEntryView.showEntries();
+        if (newEntry.isEmpty()) {
+            mAddEntryView.showEmptyEntryError();
+        } else {
+            mFirebaseRepository.addEntry(newEntry);
+            mAddEntryView.finishActivity();
+        }
+
     }
 
     @Override

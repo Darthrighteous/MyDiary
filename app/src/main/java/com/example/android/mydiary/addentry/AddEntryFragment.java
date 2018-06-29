@@ -85,7 +85,7 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
     }
 
     @Override
-    public void showEntries() {
+    public void finishActivity() {
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
     }

@@ -3,7 +3,6 @@ package com.example.android.mydiary.journal;
 import com.example.android.mydiary.BasePresenter;
 import com.example.android.mydiary.BaseView;
 import com.example.android.mydiary.data.JournalEntry;
-import com.firebase.ui.auth.AuthUI;
 
 import java.util.List;
 
@@ -13,35 +12,23 @@ import java.util.List;
 
 public interface JournalContract {
     int RC_SIGN_IN = 25;
+    String UNIQUE_USER_ID = "user-uid";
 
     interface View extends BaseView<Presenter> {
-        void displayUserInfo(String username, String emailAddress);
-
-        void showSignInFlow(List<AuthUI.IdpConfig> providers);
 
         void clearAdapter();
 
-        void addEntry(JournalEntry journalEntry);
+        void showJournalEntries(List<JournalEntry> entries);
 
-        void showJournalEntries();
-
-        void showEditEntry();
-
-        void showAddEntry();
+        void showAddEntryActivity(String userUniqueId);
 
     }
 
     interface Presenter extends BasePresenter {
 
-        void attachDatabaseReadListener();
+        void loadEntries();
 
-        void detachDatabaseReadListener();
-
-        void signIn();
-
-        void signOut();
-
-        void addNewEntry();
+        void processEntries(List<JournalEntry> entries);
 
         void openEntryDetails();
 
