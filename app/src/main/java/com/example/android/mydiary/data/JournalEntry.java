@@ -9,6 +9,7 @@ public class JournalEntry {
 //    private long mDateCreated;
 //    private long mLastModified;
     private String mBody;
+    private String mUniqueId;
 
     //no argument constructor for firebase
     public JournalEntry() {
@@ -29,12 +30,20 @@ public class JournalEntry {
         mBody = body;
     }
 
+    public void setUniqueId (String uniqueId) {
+        mUniqueId = uniqueId;
+    }
+
     public String getTitle() {
         return mTitle;
     }
 
     public String getBody() {
         return mBody;
+    }
+
+    public String getUniqueId() {
+        return mUniqueId;
     }
 
     public boolean isEmpty() {

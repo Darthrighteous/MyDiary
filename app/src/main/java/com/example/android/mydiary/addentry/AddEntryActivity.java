@@ -10,6 +10,7 @@ import com.example.android.mydiary.journal.JournalContract;
 
 public class AddEntryActivity extends AppCompatActivity {
     public static final int REQUEST_ADD_ENTRY = 101;
+    public static final int REQUEST_EDIT_ENTRY = 102;
 
     private AddEntryPresenter mPresenter;
 
@@ -22,7 +23,9 @@ public class AddEntryActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setTitle("Add New Entry");
+
+
+
 
         //setup fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -39,7 +42,18 @@ public class AddEntryActivity extends AppCompatActivity {
 
         String userUId = getIntent().getStringExtra(JournalContract.UNIQUE_USER_ID);
 
-        mPresenter = new AddEntryPresenter(userUId, fragment);
+        if (getIntent().hasExtra(JournalContract.UNIQUE_ENTRY_ID)) {
+            //edit entry case
+            String entryUId = getIntent().getStringExtra(JournalContract.UNIQUE_ENTRY_ID);
+            String entryTitle = getIntent().getStringExtra(JournalContract.ENTRY_TITLE);
+            String entryBody = getIntent().getStringExtra(JournalContract.ENTRY_BODY);
+            actionBar.setTitle("Edit Entry");
+            mPresenter = new AddEntryPresenter(userUId, entryUId, entryTitle, entryBody,  fragment);
+        } else {
+            //add entry case
+            actionBar.setTitle("add new Entry");
+            mPresenter = new AddEntryPresenter(userUId, fragment);
+        }
 
     }
 

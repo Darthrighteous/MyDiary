@@ -1,7 +1,6 @@
 package com.example.android.mydiary.data.source;
 
 import com.example.android.mydiary.data.JournalEntry;
-import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
@@ -15,15 +14,15 @@ public interface FirebaseContract {
 
     }
 
-    DatabaseReference getDatabaseReference();
+    void getEntries (GetEntriesCallback callback);
 
-    void getEntries(GetEntriesCallback callback);
+    void attachDatabaseReadListener ();
 
-    void detachDatabaseReadListener();
+    void detachDatabaseReadListener ();
 
-    void addEntry(JournalEntry newEntry);
+    void addEntry (JournalEntry newEntry);
 
-    void getJournalEntries();
+    void updateEntry (JournalEntry updatedEntry, String entryUId);
 
     void deleteJournalEntry();
 

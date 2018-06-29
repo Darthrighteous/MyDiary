@@ -19,12 +19,16 @@ import java.util.List;
  */
 
 public class JournalEntryAdapter extends ArrayAdapter<JournalEntry> {
+
     private List<JournalEntry> mList;
+    private EntryClickListener entryClickListener;
 
 
-    public JournalEntryAdapter(@NonNull Context context, int resource, @NonNull List<JournalEntry> objects) {
+    public JournalEntryAdapter(@NonNull Context context, int resource,
+                               @NonNull List<JournalEntry> objects, EntryClickListener listener) {
         super(context, resource, objects);
         setList(objects);
+        entryClickListener = listener;
 
     }
 
@@ -58,11 +62,22 @@ public class JournalEntryAdapter extends ArrayAdapter<JournalEntry> {
         TextView title = convertView.findViewById(R.id.text_title);
         TextView body = convertView.findViewById(R.id.text_body);
 
-        JournalEntry journalEntry = getItem(position);
+        final JournalEntry journalEntry = getItem(position);
 
         title.setText(journalEntry.getTitle());
         body.setText(journalEntry.getBody());
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                entryClickListener.onEntryClick(journalEntry);
+            }
+        });
+
         return convertView;
+    }
+
+    public interface EntryClickListener {
+         void onEntryClick (JournalEntry clickedEntry);
     }
 }

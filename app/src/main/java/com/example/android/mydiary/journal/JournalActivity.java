@@ -74,22 +74,9 @@ public class JournalActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mJournalFragment.showAddEntryActivity(mFirebaseAuth.getCurrentUser().getUid());
+                mJournalFragment.showAddEntryActivity();
             }
         });
-
-        //initialize the fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        mJournalFragment = (JournalFragment) fragmentManager
-                .findFragmentById(R.id.contentFrame);
-        if (mJournalFragment == null) {
-            //Create the journal fragment
-            mJournalFragment = JournalFragment.newInstance();
-
-        }
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.contentFrame, mJournalFragment);
-        transaction.commit();
 
         //initialize firebase auth stuff
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -124,6 +111,19 @@ public class JournalActivity extends AppCompatActivity
         username.setText(user.getDisplayName());
         TextView email = mNavigationView.getHeaderView(0).findViewById(R.id.text_email_address);
         email.setText(user.getEmail());
+
+        //initialize the fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        mJournalFragment = (JournalFragment) fragmentManager
+                .findFragmentById(R.id.contentFrame);
+        if (mJournalFragment == null) {
+            //Create the journal fragment
+            mJournalFragment = JournalFragment.newInstance();
+
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(R.id.contentFrame, mJournalFragment);
+            transaction.commit();
+        }
 
         //create the presenter
         mPresenter = new JournalPresenter(user, mJournalFragment);

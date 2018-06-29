@@ -13,9 +13,29 @@ public class AddEntryPresenter implements AddEntryContract.Presenter {
 
     private FirebaseRepository mFirebaseRepository;
 
+    private String mEntryUId;
+    private String mTitle;
+    private String mBody;
 
+
+    //Add entry constructor
     public AddEntryPresenter(String userUId, AddEntryContract.View addEntryView) {
         mFirebaseRepository = new FirebaseRepository(userUId);
+
+        mEntryUId = null;
+
+        mAddEntryView = addEntryView;
+        mAddEntryView.setPresenter(this);
+
+    }
+
+    //Edit entry constructor
+    public AddEntryPresenter(String userUId, String entryUId, String title, String body, AddEntryContract.View addEntryView) {
+        mFirebaseRepository = new FirebaseRepository(userUId);
+
+        mEntryUId = entryUId;
+        mTitle = title;
+        mBody = body;
 
         mAddEntryView = addEntryView;
         mAddEntryView.setPresenter(this);
@@ -23,7 +43,7 @@ public class AddEntryPresenter implements AddEntryContract.Presenter {
 
     @Override
     public void start() {
-
+        mAddEntryView.showExistingEntry(mTitle, mBody);
     }
 
     @Override
@@ -33,18 +53,23 @@ public class AddEntryPresenter implements AddEntryContract.Presenter {
 
     @Override
     public void saveEntry(String title, String body) {
-        JournalEntry newEntry = new JournalEntry(title, body);
-        if (newEntry.isEmpty()) {
-            mAddEntryView.showEmptyEntryError();
+        if (mEntryUId != null) {
+            JournalEntry newEntry = new JournalEntry(title, body);
+            if (newEntry.isEmpty()) {
+                mAddEntryView.showEmptyEntryError();
+            } else {
+                mFirebaseRepository.updateEntry(newEntry, mEntryUId);
+                mAddEntryView.finishActivity();
+            }
         } else {
-            mFirebaseRepository.addEntry(newEntry);
-            mAddEntryView.finishActivity();
+            JournalEntry newEntry = new JournalEntry(title, body);
+            if (newEntry.isEmpty()) {
+                mAddEntryView.showEmptyEntryError();
+            } else {
+                mFirebaseRepository.addEntry(newEntry);
+                mAddEntryView.finishActivity();
+            }
         }
-
-    }
-
-    @Override
-    public void showExistingEntry() {
 
     }
 }

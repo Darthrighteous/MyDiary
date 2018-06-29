@@ -40,6 +40,8 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
         mEditTextTitle = rootView.findViewById(R.id.edit_add_entry_title);
         mEditTextBody = rootView.findViewById(R.id.edit_add_entry_body);
 
+
+        mPresenter.start();
         return rootView;
     }
 
@@ -59,6 +61,8 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
             public void onClick(View v) {
                 String title = mEditTextTitle.getText().toString();
                 String body = mEditTextBody.getText().toString();
+
+
                 mPresenter.saveEntry(title, body);
             }
         });
@@ -67,6 +71,7 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
     @Override
     public void setPresenter(AddEntryContract.Presenter presenter) {
         mPresenter = presenter;
+
     }
 
     @Override
@@ -76,6 +81,12 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
 
     @Override
     public void setBody(String body) {
+        mEditTextBody.setText(body);
+    }
+
+    @Override
+    public void showExistingEntry(String title, String body) {
+        mEditTextTitle.setText(title);
         mEditTextBody.setText(body);
     }
 

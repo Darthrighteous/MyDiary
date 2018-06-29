@@ -4,8 +4,6 @@ import com.example.android.mydiary.data.JournalEntry;
 import com.example.android.mydiary.data.source.FirebaseContract;
 import com.example.android.mydiary.data.source.FirebaseRepository;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
@@ -17,10 +15,6 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     private JournalContract.View mJournalView;
 
-    private DatabaseReference mDatabaseReference;
-
-    private ChildEventListener mChildEventListener;
-
     private FirebaseUser mUser;
 
     private FirebaseRepository mFirebaseRepository;
@@ -28,8 +22,6 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     public JournalPresenter(FirebaseUser user, JournalContract.View journalView) {
         mFirebaseRepository = new FirebaseRepository(user.getUid());
-
-        mDatabaseReference = mFirebaseRepository.getDatabaseReference();
 
         mJournalView = journalView;
 
@@ -40,12 +32,17 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     @Override
     public void start() {
-        loadEntries();
+        mFirebaseRepository.attachDatabaseReadListener();
     }
 
     @Override
     public void stop() {
         mFirebaseRepository.detachDatabaseReadListener();
+    }
+
+    @Override
+    public String getUId() {
+        return mUser.getUid();
     }
 
     @Override
@@ -61,6 +58,11 @@ public class JournalPresenter implements JournalContract.Presenter{
     @Override
     public void processEntries(List<JournalEntry> entries) {
         mJournalView.showJournalEntries(entries);
+    }
+
+    @Override
+    public void editEntry(JournalEntry entry) {
+
     }
 
 

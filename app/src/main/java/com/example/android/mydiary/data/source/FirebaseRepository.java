@@ -23,6 +23,9 @@ public class FirebaseRepository implements FirebaseContract {
     private DatabaseReference mUserEntryReference;
     private ChildEventListener mChildEventListener;
 
+
+    private List<JournalEntry> mEntries = new ArrayList<>();
+
     private String mUserUId;
 
     public FirebaseRepository(String userUId) {
@@ -32,28 +35,28 @@ public class FirebaseRepository implements FirebaseContract {
                 .child("users")
                 .child(mUserUId)
                 .child("entries");
-    }
-
-    @Override
-    public DatabaseReference getDatabaseReference() {
-        return mUserEntryReference;
 
     }
 
     @Override
     public void getEntries( GetEntriesCallback getEntriesCallback) {
+        getEntriesCallback.onEntriesLoaded(mEntries);
+    }
 
-        final List<JournalEntry> entries = new ArrayList<>();
 
+    @Override
+    public void attachDatabaseReadListener() {
         mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 JournalEntry journalEntry = dataSnapshot.getValue(JournalEntry.class);
-                entries.add(journalEntry);
+                journalEntry.setUniqueId(dataSnapshot.getKey());
+                mEntries.add(journalEntry);
+
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                //reload
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
@@ -70,8 +73,6 @@ public class FirebaseRepository implements FirebaseContract {
         };
 
         mUserEntryReference.addChildEventListener(mChildEventListener);
-
-        getEntriesCallback.onEntriesLoaded(entries);
     }
 
     @Override
@@ -84,10 +85,9 @@ public class FirebaseRepository implements FirebaseContract {
         mUserEntryReference.push().setValue(newEntry);
     }
 
-
     @Override
-    public void getJournalEntries() {
-
+    public void updateEntry(JournalEntry updatedEntry, String entryUId) {
+        mUserEntryReference.child(entryUId).setValue(updatedEntry);
     }
 
     @Override

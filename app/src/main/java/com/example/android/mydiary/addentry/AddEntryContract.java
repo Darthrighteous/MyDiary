@@ -15,6 +15,8 @@ public interface AddEntryContract {
 
         void setBody(String body);
 
+        void showExistingEntry(String title, String body);
+
         void showEmptyEntryError();
 
         void finishActivity();
@@ -25,7 +27,6 @@ public interface AddEntryContract {
 
         void saveEntry(String title, String body);
 
-        void showExistingEntry();
 
     }
 }

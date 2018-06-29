@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.mydiary.R;
 import com.example.android.mydiary.addentry.AddEntryActivity;
@@ -45,8 +46,29 @@ public class JournalFragment extends Fragment implements JournalContract.View {
                         "Journal Entry added",
                         Snackbar.LENGTH_LONG).show();
             }
+        } else if (requestCode == AddEntryActivity.REQUEST_EDIT_ENTRY) {
+            if(resultCode == Activity.RESULT_OK) {
+                Snackbar.make(getActivity().findViewById(R.id.fab_open_new_entry),
+                        "Changes saved",
+                        Snackbar.LENGTH_LONG).show();
+            }
         }
     }
+
+    JournalEntryAdapter.EntryClickListener mEntryClickListener = new JournalEntryAdapter.EntryClickListener() {
+        @Override
+        public void onEntryClick(JournalEntry clickedEntry) {
+            //edit entry
+            Intent editEntryIntent = new Intent(getContext(), AddEntryActivity.class);
+            editEntryIntent.putExtra(JournalContract.UNIQUE_USER_ID, mPresenter.getUId());
+            editEntryIntent.putExtra(JournalContract.UNIQUE_ENTRY_ID, clickedEntry.getUniqueId());
+            editEntryIntent.putExtra(JournalContract.ENTRY_TITLE, clickedEntry.getTitle());
+            editEntryIntent.putExtra(JournalContract.ENTRY_BODY, clickedEntry.getBody());
+
+            startActivityForResult(editEntryIntent, AddEntryActivity.REQUEST_EDIT_ENTRY);
+            Toast.makeText(getContext(), "entry clicked"+clickedEntry.getTitle(), Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,8 +76,10 @@ public class JournalFragment extends Fragment implements JournalContract.View {
 
         mAdapter = new JournalEntryAdapter(getContext(),
                 R.layout.item_journal_entry,
-                new ArrayList<JournalEntry>(0));
+                new ArrayList<JournalEntry>(0),
+                mEntryClickListener);
 
+        mPresenter.loadEntries();
     }
 
     @Override
@@ -74,9 +98,6 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        if (mPresenter != null) {
-            mPresenter.start();
-        }
     }
 
     @Override
@@ -99,9 +120,10 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     }
 
     @Override
-    public void showAddEntryActivity(String userUniqueId) {
+    public void showAddEntryActivity() {
+//        mPresenter.addEntry();
         Intent addEntryIntent = new Intent(getContext(), AddEntryActivity.class);
-        addEntryIntent.putExtra(JournalContract.UNIQUE_USER_ID, userUniqueId);
+        addEntryIntent.putExtra(JournalContract.UNIQUE_USER_ID, mPresenter.getUId());
         startActivityForResult(addEntryIntent, AddEntryActivity.REQUEST_ADD_ENTRY);
     }
 
