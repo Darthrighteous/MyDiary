@@ -72,4 +72,13 @@ public class AddEntryPresenter implements AddEntryContract.Presenter {
         }
 
     }
+
+    @Override
+    public void deleteEntry() {
+        if (mEntryUId != null) {
+            mFirebaseRepository.deleteJournalEntry(mEntryUId);
+        }
+
+        mAddEntryView.finishActivity();
+    }
 }

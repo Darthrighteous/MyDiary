@@ -27,6 +27,8 @@ public interface AddEntryContract {
 
         void saveEntry(String title, String body);
 
+        void deleteEntry ();
+
 
     }
 }

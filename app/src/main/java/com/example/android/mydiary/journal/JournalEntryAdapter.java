@@ -55,26 +55,27 @@ public class JournalEntryAdapter extends ArrayAdapter<JournalEntry> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if (convertView == null) {
-            convertView = ((Activity) getContext()).getLayoutInflater()
+        View newView =  convertView;
+        if (newView == null) {
+            newView = ((Activity) getContext()).getLayoutInflater()
                     .inflate(R.layout.item_journal_entry, parent, false);
         }
-        TextView title = convertView.findViewById(R.id.text_title);
-        TextView body = convertView.findViewById(R.id.text_body);
+        TextView title = newView.findViewById(R.id.text_title);
+        TextView body = newView.findViewById(R.id.text_body);
 
         final JournalEntry journalEntry = getItem(position);
 
         title.setText(journalEntry.getTitle());
         body.setText(journalEntry.getBody());
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        newView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 entryClickListener.onEntryClick(journalEntry);
             }
         });
 
-        return convertView;
+        return newView;
     }
 
     public interface EntryClickListener {

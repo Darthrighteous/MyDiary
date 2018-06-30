@@ -19,8 +19,6 @@ public interface JournalContract {
 
     interface View extends BaseView<Presenter> {
 
-        void clearAdapter();
-
         void showJournalEntries(List<JournalEntry> entries);
 
         void showAddEntryActivity();
@@ -33,8 +31,6 @@ public interface JournalContract {
         void loadEntries();
 
         void processEntries(List<JournalEntry> entries);
-
-        void editEntry(JournalEntry entry);
 
         void openEntryDetails();
 

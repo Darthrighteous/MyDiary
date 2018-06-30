@@ -56,6 +56,7 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
         super.onActivityCreated(savedInstanceState);
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab_add_entry_done);
+        fab.setImageResource(R.drawable.ic_done);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

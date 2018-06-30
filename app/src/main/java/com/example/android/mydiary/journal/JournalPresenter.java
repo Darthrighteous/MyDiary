@@ -61,12 +61,6 @@ public class JournalPresenter implements JournalContract.Presenter{
     }
 
     @Override
-    public void editEntry(JournalEntry entry) {
-
-    }
-
-
-    @Override
     public void openEntryDetails() {
         //TODO diary entry selected functionality
 

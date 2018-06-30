@@ -79,6 +79,7 @@ public class JournalFragment extends Fragment implements JournalContract.View {
                 new ArrayList<JournalEntry>(0),
                 mEntryClickListener);
 
+        mPresenter.start();
         mPresenter.loadEntries();
     }
 
@@ -96,27 +97,8 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        clearAdapter();
-    }
-
-    @Override
-    public void clearAdapter() {
-        mAdapter.clear();
-    }
-
-
-    @Override
     public void showJournalEntries(List<JournalEntry> entries) {
-        mAdapter.clear();
         mAdapter.updateData(entries);
-
     }
 
     @Override

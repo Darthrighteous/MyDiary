@@ -24,7 +24,5 @@ public interface FirebaseContract {
 
     void updateEntry (JournalEntry updatedEntry, String entryUId);
 
-    void deleteJournalEntry();
-
-    void editJournalEntry();
+    void deleteJournalEntry(String entryUId);
 }

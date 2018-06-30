@@ -60,6 +60,7 @@ public class FirebaseRepository implements FirebaseContract {
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                //todo reload
 
             }
             @Override
@@ -91,12 +92,9 @@ public class FirebaseRepository implements FirebaseContract {
     }
 
     @Override
-    public void deleteJournalEntry() {
+    public void deleteJournalEntry(String entryUId) {
+        mUserEntryReference.child(entryUId).removeValue();
 
     }
 
-    @Override
-    public void editJournalEntry() {
-
-    }
 }

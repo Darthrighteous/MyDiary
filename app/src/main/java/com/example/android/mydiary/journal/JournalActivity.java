@@ -71,6 +71,7 @@ public class JournalActivity extends AppCompatActivity
 
         //fab setup
         FloatingActionButton fab = findViewById(R.id.fab_open_new_entry);
+        fab.setImageResource(R.drawable.ic_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +128,6 @@ public class JournalActivity extends AppCompatActivity
 
         //create the presenter
         mPresenter = new JournalPresenter(user, mJournalFragment);
-        mPresenter.start();
     }
 
     private void onSignedOutCleanup() {
@@ -173,18 +173,12 @@ public class JournalActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_all) {
+            // TODO Handle the all action
+        } else if (id == R.id.nav_private) {
+            //TODO Handle the private action
+        } else if (id == R.id.nav_archive) {
+            //TODO Handle the archive action
         }
         mDrawer.closeDrawer(GravityCompat.START);
         return true;

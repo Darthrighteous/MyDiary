@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.android.mydiary.R;
 import com.example.android.mydiary.journal.JournalContract;
@@ -23,9 +26,6 @@ public class AddEntryActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-
-
-
 
         //setup fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -51,9 +51,28 @@ public class AddEntryActivity extends AppCompatActivity {
             mPresenter = new AddEntryPresenter(userUId, entryUId, entryTitle, entryBody,  fragment);
         } else {
             //add entry case
-            actionBar.setTitle("add new Entry");
+            actionBar.setTitle("New Entry");
             mPresenter = new AddEntryPresenter(userUId, fragment);
         }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_entry, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_delete) {
+            //delete entry
+            mPresenter.deleteEntry();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
 
     }
 
