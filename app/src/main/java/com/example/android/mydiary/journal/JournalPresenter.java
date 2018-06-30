@@ -34,7 +34,10 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     @Override
     public void stop() {
-        mFirebaseRepository.detachDatabaseReadListener();
+        if(mFirebaseRepository != null) {
+            mFirebaseRepository.detachDatabaseReadListener();
+        }
+
     }
 
     @Override
