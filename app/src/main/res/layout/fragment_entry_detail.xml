@@ -15,6 +15,7 @@
             android:id="@+id/edit_add_entry_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textCapSentences|textImeMultiLine"
             android:hint="@string/entry_title_hint"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
@@ -23,6 +24,7 @@
             android:id="@+id/edit_add_entry_body"
             android:layout_width="match_parent"
             android:layout_height="350dp"
+            android:inputType="textCapSentences"
             android:gravity="top"
             android:hint="@string/entry_description_hint" />
 

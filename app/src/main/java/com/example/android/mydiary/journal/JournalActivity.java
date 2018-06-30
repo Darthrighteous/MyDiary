@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,6 +77,23 @@ public class JournalActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 mJournalFragment.showAddEntryActivity();
+            }
+        });
+
+        ImageView image_logout = findViewById(R.id.image_logout);
+        image_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                AuthUI.getInstance().signOut(getApplicationContext());
+            }
+        });
+
+        ImageView image_settings = findViewById(R.id.image_settings);
+        image_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Feature not available yet", Toast.LENGTH_SHORT)
+                        .show();
             }
         });
 

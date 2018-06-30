@@ -10,21 +10,24 @@
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="TITLE TEXT"/>
-
-    <TextView
-        android:id="@+id/text_date_created"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="date created"
-        tools:text="date created"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        tools:text="TITLE TEXT" />
 
     <TextView
         android:id="@+id/text_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
         android:ellipsize="end"
-        tools:text="This is the body of the entry, it will be really long..."/>
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        tools:text="This is the body of the entry, it will be really long..." />
+
+    <TextView
+        android:id="@+id/text_date_created"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textStyle="italic"
+        tools:text="date created" />
 
 </LinearLayout>
