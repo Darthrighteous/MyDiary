@@ -3,6 +3,7 @@ package com.example.android.mydiary.journal;
 import com.example.android.mydiary.BasePresenter;
 import com.example.android.mydiary.BaseView;
 import com.example.android.mydiary.data.JournalEntry;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -23,16 +24,21 @@ public interface JournalContract {
 
         void showAddEntryActivity();
 
+        void showProgressBar();
+
+        void hideProgressBar();
+
     }
 
     interface Presenter extends BasePresenter {
+
+        void setUser(FirebaseUser user);
+
         String getUId();
 
         void loadEntries();
 
         void processEntries(List<JournalEntry> entries);
-
-        void openEntryDetails();
 
         void openSettings();
 

@@ -20,12 +20,9 @@ public class JournalPresenter implements JournalContract.Presenter{
     private FirebaseRepository mFirebaseRepository;
 
 
-    public JournalPresenter(FirebaseUser user, JournalContract.View journalView) {
-        mFirebaseRepository = new FirebaseRepository(user.getUid());
+    public JournalPresenter(JournalContract.View journalView) {
 
         mJournalView = journalView;
-
-        mUser = user;
 
         mJournalView.setPresenter(this);
     }
@@ -41,28 +38,44 @@ public class JournalPresenter implements JournalContract.Presenter{
     }
 
     @Override
+    public void setUser(FirebaseUser user) {
+        mUser = user;
+
+        mFirebaseRepository = new FirebaseRepository(user.getUid(), this);
+
+        start();
+        loadEntries();
+    }
+
+    @Override
     public String getUId() {
         return mUser.getUid();
     }
 
     @Override
     public void loadEntries() {
+//        mJournalView.showProgressBar();
+        if(mFirebaseRepository == null) {
+            return;
+        }
         mFirebaseRepository.getEntries(new FirebaseContract.GetEntriesCallback() {
             @Override
             public void onEntriesLoaded(List<JournalEntry> entries) {
                 processEntries(entries);
+            }
+
+            @Override
+            public void onLoadComplete() {
+                //
             }
         });
     }
 
     @Override
     public void processEntries(List<JournalEntry> entries) {
-        mJournalView.showJournalEntries(entries);
-    }
-
-    @Override
-    public void openEntryDetails() {
-        //TODO diary entry selected functionality
+        if(entries.size() != 0) {
+            mJournalView.showJournalEntries(entries);
+        }
 
     }
 

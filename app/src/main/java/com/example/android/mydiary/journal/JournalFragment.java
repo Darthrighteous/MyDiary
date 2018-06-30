@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.example.android.mydiary.R;
 import com.example.android.mydiary.addentry.AddEntryActivity;
@@ -66,7 +66,6 @@ public class JournalFragment extends Fragment implements JournalContract.View {
             editEntryIntent.putExtra(JournalContract.ENTRY_BODY, clickedEntry.getBody());
 
             startActivityForResult(editEntryIntent, AddEntryActivity.REQUEST_EDIT_ENTRY);
-            Toast.makeText(getContext(), "entry clicked"+clickedEntry.getTitle(), Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -78,9 +77,6 @@ public class JournalFragment extends Fragment implements JournalContract.View {
                 R.layout.item_journal_entry,
                 new ArrayList<JournalEntry>(0),
                 mEntryClickListener);
-
-        mPresenter.start();
-        mPresenter.loadEntries();
     }
 
     @Override
@@ -93,20 +89,52 @@ public class JournalFragment extends Fragment implements JournalContract.View {
         ListView journalList = rootView.findViewById(R.id.list_view_journal);
         journalList.setAdapter(mAdapter);
 
+        showProgressBar();
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.loadEntries();
+
     }
 
     @Override
     public void showJournalEntries(List<JournalEntry> entries) {
         mAdapter.updateData(entries);
+        hideProgressBar();
     }
 
     @Override
     public void showAddEntryActivity() {
-//        mPresenter.addEntry();
         Intent addEntryIntent = new Intent(getContext(), AddEntryActivity.class);
         addEntryIntent.putExtra(JournalContract.UNIQUE_USER_ID, mPresenter.getUId());
         startActivityForResult(addEntryIntent, AddEntryActivity.REQUEST_ADD_ENTRY);
+    }
+
+    @Override
+    public void showProgressBar() {
+        try {
+            ProgressBar progressBar = getActivity().findViewById(R.id.progress_bar_list_view);
+            if(progressBar.getVisibility() != View.VISIBLE) {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        try {
+            ProgressBar progressBar = getActivity().findViewById(R.id.progress_bar_list_view);
+            if(progressBar.getVisibility() == View.VISIBLE){
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -69,6 +69,14 @@ public class JournalActivity extends AppCompatActivity
         //set up Navigation view
         mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
+        ImageView imageUserPhoto = mNavigationView.getHeaderView(0).findViewById(R.id.image_user_photo);
+        imageUserPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Feature not available yet",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //fab setup
         FloatingActionButton fab = findViewById(R.id.fab_open_new_entry);
@@ -80,22 +88,41 @@ public class JournalActivity extends AppCompatActivity
             }
         });
 
+        //initialize drawer logout button
         ImageView image_logout = findViewById(R.id.image_logout);
         image_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                AuthUI.getInstance().signOut(getApplicationContext());
+                AuthUI.getInstance().signOut(getApplicationContext());
             }
         });
 
+        //initialize drawer settings button
         ImageView image_settings = findViewById(R.id.image_settings);
         image_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Feature not available yet", Toast.LENGTH_SHORT)
+                Toast.makeText(getApplicationContext(), "Feature not available yet",
+                        Toast.LENGTH_SHORT)
                         .show();
             }
         });
+
+        //initialize the fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        mJournalFragment = (JournalFragment) fragmentManager
+                .findFragmentById(R.id.contentFrame);
+        if (mJournalFragment == null) {
+            //Create the journal fragment
+            mJournalFragment = JournalFragment.newInstance();
+
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(R.id.contentFrame, mJournalFragment);
+            transaction.commit();
+        }
+
+        //create the presenter
+        mPresenter = new JournalPresenter(mJournalFragment);
 
         //initialize firebase auth stuff
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -126,26 +153,14 @@ public class JournalActivity extends AppCompatActivity
 
     private void onSignedInInitialize(FirebaseUser user) {
         //display nav bar user info
-        TextView username = mNavigationView.getHeaderView(0).findViewById(R.id.text_username);
+        TextView username = mNavigationView.getHeaderView(0).
+                findViewById(R.id.text_username);
         username.setText(user.getDisplayName());
-        TextView email = mNavigationView.getHeaderView(0).findViewById(R.id.text_email_address);
+        TextView email = mNavigationView.getHeaderView(0).
+                findViewById(R.id.text_email_address);
         email.setText(user.getEmail());
 
-        //initialize the fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        mJournalFragment = (JournalFragment) fragmentManager
-                .findFragmentById(R.id.contentFrame);
-        if (mJournalFragment == null) {
-            //Create the journal fragment
-            mJournalFragment = JournalFragment.newInstance();
-
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.add(R.id.contentFrame, mJournalFragment);
-            transaction.commit();
-        }
-
-        //create the presenter
-        mPresenter = new JournalPresenter(user, mJournalFragment);
+        mPresenter.setUser(user);
     }
 
     private void onSignedOutCleanup() {
@@ -194,9 +209,13 @@ public class JournalActivity extends AppCompatActivity
         if (id == R.id.nav_all) {
             // TODO Handle the all action
         } else if (id == R.id.nav_private) {
-            //TODO Handle the private action
+            // Handle the private action
+            Toast.makeText(this, "Feature not available yet",
+                    Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_archive) {
             //TODO Handle the archive action
+            Toast.makeText(this, "Feature not available yet",
+                    Toast.LENGTH_SHORT).show();
         }
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
@@ -236,6 +255,6 @@ public class JournalActivity extends AppCompatActivity
         if(mAuthStateListener != null){
             mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
         }
-
+        mPresenter.stop();
     }
 }

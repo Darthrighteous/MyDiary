@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.android.mydiary.data.JournalEntry;
+import com.example.android.mydiary.journal.JournalPresenter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,18 +24,22 @@ public class FirebaseRepository implements FirebaseContract {
     private DatabaseReference mUserEntryReference;
     private ChildEventListener mChildEventListener;
 
+    private JournalPresenter mPresenter;
+
 
     private List<JournalEntry> mEntries = new ArrayList<>();
 
     private String mUserUId;
 
-    public FirebaseRepository(String userUId) {
+    public FirebaseRepository(String userUId, JournalPresenter presenter) {
         mUserUId = userUId;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserEntryReference = mFirebaseDatabase.getReference()
                 .child("users")
                 .child(mUserUId)
                 .child("entries");
+
+        mPresenter = presenter;
 
     }
 
@@ -52,15 +57,17 @@ public class FirebaseRepository implements FirebaseContract {
                 JournalEntry journalEntry = dataSnapshot.getValue(JournalEntry.class);
                 journalEntry.setUniqueId(dataSnapshot.getKey());
                 mEntries.add(journalEntry);
-
+                mPresenter.loadEntries();
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //reload
+                mPresenter.loadEntries();
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 //todo reload
+                mPresenter.loadEntries();
 
             }
             @Override

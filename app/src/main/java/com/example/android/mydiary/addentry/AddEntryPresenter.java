@@ -20,7 +20,7 @@ public class AddEntryPresenter implements AddEntryContract.Presenter {
 
     //Add entry constructor
     public AddEntryPresenter(String userUId, AddEntryContract.View addEntryView) {
-        mFirebaseRepository = new FirebaseRepository(userUId);
+        mFirebaseRepository = new FirebaseRepository(userUId, null);
 
         mEntryUId = null;
 
@@ -31,7 +31,7 @@ public class AddEntryPresenter implements AddEntryContract.Presenter {
 
     //Edit entry constructor
     public AddEntryPresenter(String userUId, String entryUId, String title, String body, AddEntryContract.View addEntryView) {
-        mFirebaseRepository = new FirebaseRepository(userUId);
+        mFirebaseRepository = new FirebaseRepository(userUId, null);
 
         mEntryUId = entryUId;
         mTitle = title;

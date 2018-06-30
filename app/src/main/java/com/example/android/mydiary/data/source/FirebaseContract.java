@@ -12,6 +12,8 @@ public interface FirebaseContract {
     interface GetEntriesCallback {
         void onEntriesLoaded(List<JournalEntry> entries);
 
+        void onLoadComplete();
+
     }
 
     void getEntries (GetEntriesCallback callback);

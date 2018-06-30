@@ -24,7 +24,7 @@
             android:id="@+id/edit_add_entry_body"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:inputType="textCapSentences"
+            android:inputType="textCapSentences|textMultiLine"
             android:gravity="top"
             android:hint="@string/entry_description_hint" />
 
