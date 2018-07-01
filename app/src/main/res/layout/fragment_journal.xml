@@ -13,14 +13,14 @@
             android:id="@+id/list_view_journal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_journal_entry"/>
+            tools:listitem="@layout/item_journal_entry" />
 
         <TextView
             android:id="@+id/text_no_entries"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No Entries yet!"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:text="No Entries yet!" />
 
     </RelativeLayout>
 

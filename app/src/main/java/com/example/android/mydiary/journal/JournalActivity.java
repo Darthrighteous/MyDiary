@@ -154,10 +154,10 @@ public class JournalActivity extends AppCompatActivity
         if (requestCode == JournalContract.RC_SIGN_IN) {
             if(resultCode == Activity.RESULT_OK){
                 Snackbar.make(findViewById(R.id.fab_open_new_entry),
-                        getString(R.string.sign_in_success_message),
+                        getString(R.string.msg_sign_in_success),
                         Snackbar.LENGTH_LONG).show();
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, getString(R.string.sign_in_cancel_message), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.msg_sign_in_cancel), Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

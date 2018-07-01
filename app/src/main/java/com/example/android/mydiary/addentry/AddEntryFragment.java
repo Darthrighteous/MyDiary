@@ -4,6 +4,7 @@ package com.example.android.mydiary.addentry;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -29,21 +30,23 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
         // Required empty public constructor
     }
 
+    //return new instance of fragment
     public static AddEntryFragment newInstance() {
          return new AddEntryFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_entry_detail, container, false);
 
+        //set the edit text variables
         mEditTextTitle = rootView.findViewById(R.id.edit_add_entry_title);
         mEditTextBody = rootView.findViewById(R.id.edit_add_entry_body);
 
+        //Set focus to edit text and open key board
         mEditTextTitle.requestFocus();
-
         try {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(mEditTextTitle, InputMethodManager.SHOW_IMPLICIT);

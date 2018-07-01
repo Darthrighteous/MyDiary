@@ -1,10 +1,8 @@
 package com.example.android.mydiary.utilities;
 
-import android.annotation.SuppressLint;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.Locale;
 
 /**
  * Created by Jalil on 30/06/2018.
@@ -13,20 +11,15 @@ import java.util.TimeZone;
 public class dateTimeUtils {
 
     public static long getLocalTime() {
-        long nowMillis = System.currentTimeMillis();
 
-        TimeZone timeZone = TimeZone.getDefault();
-
-        int offset = timeZone.getOffset(nowMillis);
-
-        return nowMillis + offset;
+        return System.currentTimeMillis();
 
     }
 
     public static String getDateString() {
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf =
-                new SimpleDateFormat("HH:mm 'on' dd-MM-yyyy ");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm 'on' dd-MM-yyyy ",
+                Locale.getDefault());
 
         Date date = new Date(getLocalTime());
 

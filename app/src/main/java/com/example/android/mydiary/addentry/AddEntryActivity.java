@@ -12,9 +12,12 @@ import com.example.android.mydiary.R;
 import com.example.android.mydiary.journal.JournalContract;
 
 public class AddEntryActivity extends AppCompatActivity {
+    //constant definitions
+    //request constants
     public static final int REQUEST_ADD_ENTRY = 101;
     public static final int REQUEST_EDIT_ENTRY = 102;
 
+    //result constant for entry deletion
     public static final int RESULT_DELETED = 201;
 
     private AddEntryPresenter mPresenter;
@@ -50,28 +53,33 @@ public class AddEntryActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra(JournalContract.ARGUMENT_UNIQUE_ENTRY_ID)) {
             //edit entry case
-            Bundle bundle = getIntent().getBundleExtra(JournalContract.BUNDLE_EDIT_ENTRY);
 
+            //get the bundle from intent and get the entry parameters
+            Bundle bundle = getIntent().getBundleExtra(JournalContract.BUNDLE_EDIT_ENTRY);
             String entryUId = bundle.getString(JournalContract.ARGUMENT_UNIQUE_ENTRY_ID);
             String entryTitle = bundle.getString(JournalContract.ARGUMENT_ENTRY_TITLE);
             String entryBody = bundle.getString(JournalContract.ARGUMENT_ENTRY_BODY);
             String entryDateCreated = bundle.getString(JournalContract.ARGUMENT_ENTRY_DATE_CREATED);
 
             try{
+                //set the action bar to edit entry
                 actionBar.setTitle("Edit Entry");
             } catch (NullPointerException e){
                 e.printStackTrace();
             }
 
+            //initialize presenter for edit entry
             mPresenter = new AddEntryPresenter(userUId, entryUId, entryTitle, entryBody, entryDateCreated,  fragment);
         } else {
             //add entry case
             try{
+                //set action bar title to new entry title
                 actionBar.setTitle("New Entry");
             } catch (NullPointerException e){
                 e.printStackTrace();
             }
 
+            //initialize presenter for new entry
             mPresenter = new AddEntryPresenter(userUId, fragment);
         }
 
@@ -88,8 +96,9 @@ public class AddEntryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_delete) {
-            //delete entry
+            //call presenter method to delete entry
             mPresenter.deleteEntry();
+            //set activity result to RESULT_DELETED and finish
             setResult(RESULT_DELETED);
             finish();
             return true;
