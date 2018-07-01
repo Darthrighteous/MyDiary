@@ -43,7 +43,7 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        String snackbarText = "unknown";
+        String snackbarText = "Cancelled";
         if (requestCode == AddEntryActivity.REQUEST_ADD_ENTRY) {
             if(resultCode == Activity.RESULT_OK) {
                 snackbarText = "Journal Entry added";
