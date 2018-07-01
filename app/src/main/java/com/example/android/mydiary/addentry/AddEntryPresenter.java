@@ -75,6 +75,7 @@ public class AddEntryPresenter implements AddEntryContract.Presenter {
 
     @Override
     public void deleteEntry() {
+        //if an entry was selected
         if (mEntryUId != null) {
             mFirebaseRepository.deleteJournalEntry(mEntryUId);
         }

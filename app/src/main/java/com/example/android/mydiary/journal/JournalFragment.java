@@ -40,10 +40,15 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == AddEntryActivity.REQUEST_ADD_ENTRY) {
             if(resultCode == Activity.RESULT_OK) {
                 Snackbar.make(getActivity().findViewById(R.id.fab_open_new_entry),
                         "Journal Entry added",
+                        Snackbar.LENGTH_LONG).show();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Snackbar.make(getActivity().findViewById(R.id.fab_open_new_entry),
+                        "Entry Cancelled",
                         Snackbar.LENGTH_LONG).show();
             }
         } else if (requestCode == AddEntryActivity.REQUEST_EDIT_ENTRY) {
@@ -103,7 +108,6 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     @Override
     public void showJournalEntries(List<JournalEntry> entries) {
         mAdapter.updateData(entries);
-        hideProgressBar();
     }
 
     @Override

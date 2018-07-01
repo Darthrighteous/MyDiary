@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.mydiary.R;
-import com.example.android.mydiary.addentry.AddEntryActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -232,12 +231,6 @@ public class JournalActivity extends AppCompatActivity
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(this, "Sign in cancelled", Toast.LENGTH_SHORT).show();
                 finish();
-            }
-        } else if (requestCode == AddEntryActivity.REQUEST_ADD_ENTRY) {
-            if(resultCode == Activity.RESULT_OK) {
-                Snackbar.make(findViewById(R.id.fab_open_new_entry),
-                        "Journal Entry added",
-                        Snackbar.LENGTH_LONG).show();
             }
         }
     }

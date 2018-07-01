@@ -72,6 +72,7 @@ public class JournalPresenter implements JournalContract.Presenter{
                 //
             }
         });
+        mJournalView.hideProgressBar();
     }
 
     @Override

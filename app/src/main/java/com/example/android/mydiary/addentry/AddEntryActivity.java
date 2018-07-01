@@ -1,5 +1,6 @@
 package com.example.android.mydiary.addentry;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -69,6 +70,8 @@ public class AddEntryActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_delete) {
             //delete entry
+
+            setResult(Activity.RESULT_CANCELED);
             mPresenter.deleteEntry();
             return true;
         }

@@ -104,4 +104,10 @@ public class FirebaseRepository implements FirebaseContract {
 
     }
 
+    @Override
+    public void deleteAllEntries() {
+        mUserEntryReference.removeValue();
+        mPresenter.loadEntries();
+    }
+
 }
