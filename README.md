@@ -13,7 +13,7 @@ What things you need to install the software and how to install them
 
 ```
 Android Studio 
-Android Device/virtual machine - install apk file [here](https://github.com/Darthrighteous/MyDiary/blob/master/MyDiary.apk)
+Android Device/virtual machine - install apk file 
 ```
 
 ### Installing
@@ -26,9 +26,10 @@ For Android Studio
 ```
 
 For Android device/ virtual machine
+ [MyDiary.apk](https://github.com/Darthrighteous/MyDiary/blob/master/MyDiary.apk)
 
 ```
- - download the MyDiary.apk file [here](https://github.com/Darthrighteous/MyDiary/blob/master/MyDiary.apk)
+ - download the MyDiary.apk file 
  - install on android device
 ```
 
