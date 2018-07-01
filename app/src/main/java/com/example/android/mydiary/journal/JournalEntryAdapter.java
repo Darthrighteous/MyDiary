@@ -69,7 +69,8 @@ public class JournalEntryAdapter extends ArrayAdapter<JournalEntry> {
         title.setText(journalEntry.getTitle());
         body.setText(journalEntry.getBody());
 
-        String dateString = "created - " + journalEntry.getDateCreated();
+        String dateString = "Created - " + journalEntry.getDateCreated() +
+                " Last modified - " + journalEntry.getDateModified();
         date.setText(dateString);
 
         newView.setOnClickListener(new View.OnClickListener() {

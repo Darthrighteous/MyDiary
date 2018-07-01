@@ -2,6 +2,7 @@ package com.example.android.mydiary.addentry;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.android.mydiary.R;
@@ -39,6 +41,15 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
 
         mEditTextTitle = rootView.findViewById(R.id.edit_add_entry_title);
         mEditTextBody = rootView.findViewById(R.id.edit_add_entry_body);
+
+        mEditTextTitle.requestFocus();
+
+        try {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mEditTextTitle, InputMethodManager.SHOW_IMPLICIT);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
 
         mPresenter.start();

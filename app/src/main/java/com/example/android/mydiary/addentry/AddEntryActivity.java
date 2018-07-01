@@ -1,6 +1,5 @@
 package com.example.android.mydiary.addentry;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -15,6 +14,8 @@ import com.example.android.mydiary.journal.JournalContract;
 public class AddEntryActivity extends AppCompatActivity {
     public static final int REQUEST_ADD_ENTRY = 101;
     public static final int REQUEST_EDIT_ENTRY = 102;
+
+    public static final int RESULT_DELETED = 201;
 
     private AddEntryPresenter mPresenter;
 
@@ -45,11 +46,15 @@ public class AddEntryActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra(JournalContract.UNIQUE_ENTRY_ID)) {
             //edit entry case
-            String entryUId = getIntent().getStringExtra(JournalContract.UNIQUE_ENTRY_ID);
-            String entryTitle = getIntent().getStringExtra(JournalContract.ENTRY_TITLE);
-            String entryBody = getIntent().getStringExtra(JournalContract.ENTRY_BODY);
+            Bundle bundle = getIntent().getBundleExtra(JournalContract.EDIT_ENTRY_BUNDLE);
+
+            String entryUId = bundle.getString(JournalContract.UNIQUE_ENTRY_ID);
+            String entryTitle = bundle.getString(JournalContract.ENTRY_TITLE);
+            String entryBody = bundle.getString(JournalContract.ENTRY_BODY);
+            String entryDateCreated = bundle.getString(JournalContract.ENTRY_DATE_CREATED);
+
             actionBar.setTitle("Edit Entry");
-            mPresenter = new AddEntryPresenter(userUId, entryUId, entryTitle, entryBody,  fragment);
+            mPresenter = new AddEntryPresenter(userUId, entryUId, entryTitle, entryBody, entryDateCreated,  fragment);
         } else {
             //add entry case
             actionBar.setTitle("New Entry");
@@ -71,7 +76,7 @@ public class AddEntryActivity extends AppCompatActivity {
         if (id == R.id.action_delete) {
             //delete entry
             mPresenter.deleteEntry();
-            setResult(Activity.RESULT_CANCELED);
+            setResult(RESULT_DELETED);
             finish();
             return true;
         }

@@ -47,7 +47,6 @@ public class JournalPresenter implements JournalContract.Presenter{
         mFirebaseRepository = new FirebaseRepository(user.getUid(), this);
 
         start();
-        loadEntries();
     }
 
     @Override
@@ -57,8 +56,9 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     @Override
     public void loadEntries() {
-
+        mJournalView.setLoadingIndicator(true);
         if(mFirebaseRepository == null) {
+            mJournalView.setLoadingIndicator(false);
             return;
         }
         mFirebaseRepository.getEntries(new FirebaseContract.GetEntriesCallback() {
@@ -77,7 +77,11 @@ public class JournalPresenter implements JournalContract.Presenter{
     @Override
     public void processEntries(List<JournalEntry> entries) {
         mJournalView.setLoadingIndicator(false);
-        if(entries.size() != 0) {
+        if(entries.size() == 0) {
+            mJournalView.clear();
+            mJournalView.showNoEntriesMessage(true);
+        } else {
+            mJournalView.showNoEntriesMessage(false);
             mJournalView.showJournalEntries(entries);
         }
 

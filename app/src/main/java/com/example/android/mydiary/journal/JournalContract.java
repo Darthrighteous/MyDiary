@@ -17,12 +17,18 @@ public interface JournalContract {
     String UNIQUE_ENTRY_ID = "entry-uid";
     String ENTRY_TITLE = "entry-title";
     String ENTRY_BODY = "entry-body";
+    String ENTRY_DATE_CREATED = "entry-date-created";
+    String EDIT_ENTRY_BUNDLE = "entry-bundle";
 
     interface View extends BaseView<Presenter> {
+
+        void clear();
 
         void showJournalEntries(List<JournalEntry> entries);
 
         void showAddEntryActivity();
+
+        void showNoEntriesMessage(boolean show);
 
         void setLoadingIndicator(boolean loading);
 

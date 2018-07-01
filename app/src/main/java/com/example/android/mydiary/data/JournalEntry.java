@@ -9,7 +9,7 @@ import com.example.android.mydiary.utilities.dateTimeUtils;
 public class JournalEntry {
     private String mTitle;
     private String mDateCreated;
-//    private long mLastModified;
+    private String mDateModified;
     private String mBody;
     private String mUniqueId;
 
@@ -21,7 +21,8 @@ public class JournalEntry {
     public JournalEntry(String title, String body) {
         mTitle = title;
         mBody = body;
-        mDateCreated = dateTimeUtils.getdateString();
+        mDateCreated = dateTimeUtils.getDateString();
+        mDateModified = dateTimeUtils.getDateString();
 
     }
 
@@ -41,6 +42,10 @@ public class JournalEntry {
         mDateCreated = dateCreated;
     }
 
+    public void setDateModified (String dateModified) {
+        mDateModified = dateModified;
+    }
+
     public String getTitle() {
         return mTitle;
     }
@@ -55,6 +60,10 @@ public class JournalEntry {
 
     public String getDateCreated () {
         return mDateCreated;
+    }
+
+    public String getDateModified() {
+        return mDateModified;
     }
 
     public boolean isEmpty() {

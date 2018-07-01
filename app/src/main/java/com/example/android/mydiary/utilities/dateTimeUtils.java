@@ -21,7 +21,7 @@ public class dateTimeUtils {
 
     }
 
-    public static String getdateString () {
+    public static String getDateString() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm 'on' dd-MM-yyyy ");
 
