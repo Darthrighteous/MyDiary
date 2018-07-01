@@ -66,12 +66,16 @@ public class JournalEntryAdapter extends ArrayAdapter<JournalEntry> {
 
         final JournalEntry journalEntry = getItem(position);
 
-        title.setText(journalEntry.getTitle());
-        body.setText(journalEntry.getBody());
+        try {
+            title.setText(journalEntry.getTitle());
+            body.setText(journalEntry.getBody());
+            String dateString = "Created - " + journalEntry.getDateCreated() +
+                    " Last modified - " + journalEntry.getDateModified();
+            date.setText(dateString);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
-        String dateString = "Created - " + journalEntry.getDateCreated() +
-                " Last modified - " + journalEntry.getDateModified();
-        date.setText(dateString);
 
         newView.setOnClickListener(new View.OnClickListener() {
             @Override

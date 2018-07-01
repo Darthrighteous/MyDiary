@@ -20,7 +20,7 @@ public class JournalPresenter implements JournalContract.Presenter{
     private FirebaseRepository mFirebaseRepository;
 
 
-    public JournalPresenter(JournalContract.View journalView) {
+    JournalPresenter(JournalContract.View journalView) {
 
         mJournalView = journalView;
 

@@ -55,7 +55,11 @@ public class FirebaseRepository implements FirebaseContract {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 JournalEntry journalEntry = dataSnapshot.getValue(JournalEntry.class);
-                journalEntry.setUniqueId(dataSnapshot.getKey());
+                try {
+                    journalEntry.setUniqueId(dataSnapshot.getKey());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
                 mEntries.add(journalEntry);
                 mPresenter.loadEntries();
             }

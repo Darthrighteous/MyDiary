@@ -66,18 +66,23 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FloatingActionButton fab = getActivity().findViewById(R.id.fab_add_entry_done);
-        fab.setImageResource(R.drawable.ic_done);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String title = mEditTextTitle.getText().toString();
-                String body = mEditTextBody.getText().toString();
+        try{
+            FloatingActionButton fab = getActivity().findViewById(R.id.fab_add_entry_done);
+            fab.setImageResource(R.drawable.ic_fab_done);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String title = mEditTextTitle.getText().toString();
+                    String body = mEditTextBody.getText().toString();
 
 
-                mPresenter.saveEntry(title, body);
-            }
-        });
+                    mPresenter.saveEntry(title, body);
+                }
+            });
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -109,7 +114,12 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
 
     @Override
     public void finishActivity() {
-        getActivity().setResult(Activity.RESULT_OK);
+        try{
+            getActivity().setResult(Activity.RESULT_OK);
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
         getActivity().finish();
     }
 }

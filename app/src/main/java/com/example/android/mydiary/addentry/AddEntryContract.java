@@ -29,6 +29,5 @@ public interface AddEntryContract {
 
         void deleteEntry ();
 
-
     }
 }

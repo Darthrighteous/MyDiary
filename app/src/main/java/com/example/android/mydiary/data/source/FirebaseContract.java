@@ -9,6 +9,7 @@ import java.util.List;
  */
 
 public interface FirebaseContract {
+
     interface GetEntriesCallback {
         void onEntriesLoaded(List<JournalEntry> entries);
 

@@ -70,23 +70,4 @@ public class JournalEntry {
         return (mTitle.isEmpty() || mTitle == null)
                 && (mBody.isEmpty() || mBody == null);
     }
-
-//    public long getDateCreated() {
-//        return mDateCreated;
-//    }
-//
-//    public void setDateCreated(long mDateCreated) {
-//        this.mDateCreated = mDateCreated;
-//    }
-//
-//    public long getLastModified() {
-//        return mLastModified;
-//    }
-//
-//    public void setLastModified(long mLastModified) {
-//        this.mLastModified = mLastModified;
-//    }
-
-
-
 }

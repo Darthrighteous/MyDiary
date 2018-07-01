@@ -97,10 +97,15 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdapter = new JournalEntryAdapter(getContext(),
-                R.layout.item_journal_entry,
-                new ArrayList<JournalEntry>(0),
-                mEntryClickListener);
+        try{
+            mAdapter = new JournalEntryAdapter(getContext(),
+                    R.layout.item_journal_entry,
+                    new ArrayList<JournalEntry>(0),
+                    mEntryClickListener);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -26,8 +26,12 @@ public class AddEntryActivity extends AppCompatActivity {
 
         // Setup actionbar to show up
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        try{
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
 
         //setup fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -53,11 +57,21 @@ public class AddEntryActivity extends AppCompatActivity {
             String entryBody = bundle.getString(JournalContract.ENTRY_BODY);
             String entryDateCreated = bundle.getString(JournalContract.ENTRY_DATE_CREATED);
 
-            actionBar.setTitle("Edit Entry");
+            try{
+                actionBar.setTitle("Edit Entry");
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
+
             mPresenter = new AddEntryPresenter(userUId, entryUId, entryTitle, entryBody, entryDateCreated,  fragment);
         } else {
             //add entry case
-            actionBar.setTitle("New Entry");
+            try{
+                actionBar.setTitle("New Entry");
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
+
             mPresenter = new AddEntryPresenter(userUId, fragment);
         }
 

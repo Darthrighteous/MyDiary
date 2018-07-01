@@ -79,7 +79,7 @@ public class JournalActivity extends AppCompatActivity
 
         //fab setup
         FloatingActionButton fab = findViewById(R.id.fab_open_new_entry);
-        fab.setImageResource(R.drawable.ic_add);
+        fab.setImageResource(R.drawable.ic_fab_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,7 +203,7 @@ public class JournalActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
 
         int id = item.getItemId();
@@ -229,10 +229,10 @@ public class JournalActivity extends AppCompatActivity
         if (requestCode == JournalContract.RC_SIGN_IN) {
             if(resultCode == Activity.RESULT_OK){
                 Snackbar.make(findViewById(R.id.fab_open_new_entry),
-                        "You are now Signed In! Welcome to your diary",
+                        getString(R.string.sign_in_success_message),
                         Snackbar.LENGTH_LONG).show();
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, "Sign in cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.sign_in_cancel_message), Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

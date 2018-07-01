@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">My Diary</string>
+    <string name="title_add_entry_activity">Add Entry</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -14,5 +15,7 @@
     <string name="entry_title_hint">Title</string>
     <string name="entry_description_hint">Enter text here</string>
 
+    <string name="sign_in_success_message">"You are now Signed In! Welcome to your diary"</string>
+    <string name="sign_in_cancel_message">"Sign in cancelled"</string>
     <string name="empty_entry_message">Entry title cannot be empty!</string>
 </resources>
