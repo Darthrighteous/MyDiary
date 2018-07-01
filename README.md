@@ -28,7 +28,7 @@ For Android Studio
 For Android device/ virtual machine
 
 ```
- - download the MyDiary.apk file
+ - download the [MyDiary.apk file](https://github.com/Darthrighteous/MyDiary/blob/master/MyDiary.apk)
  - install on android device
 ```
 
