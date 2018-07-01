@@ -5,7 +5,7 @@ It is an Android mobile app, serves as a diary.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -13,7 +13,7 @@ What things you need to install the software and how to install them
 
 ```
 Android Studio 
-Android Device/virtual machine - install apk file
+Android Device/virtual machine - install apk file 
 ```
 
 ### Installing
@@ -27,8 +27,10 @@ For Android Studio
 
 For Android device/ virtual machine
 
+[MyDiary.apk](https://github.com/Darthrighteous/MyDiary/blob/master/MyDiary.apk)
+
 ```
- - download the MyDiary.apk file
+ - download the MyDiary.apk file 
  - install on android device
 ```
 
