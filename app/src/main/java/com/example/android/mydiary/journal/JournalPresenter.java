@@ -57,7 +57,7 @@ public class JournalPresenter implements JournalContract.Presenter{
 
     @Override
     public void loadEntries() {
-//        mJournalView.showProgressBar();
+
         if(mFirebaseRepository == null) {
             return;
         }
@@ -72,11 +72,11 @@ public class JournalPresenter implements JournalContract.Presenter{
                 //
             }
         });
-        mJournalView.hideProgressBar();
     }
 
     @Override
     public void processEntries(List<JournalEntry> entries) {
+        mJournalView.setLoadingIndicator(false);
         if(entries.size() != 0) {
             mJournalView.showJournalEntries(entries);
         }

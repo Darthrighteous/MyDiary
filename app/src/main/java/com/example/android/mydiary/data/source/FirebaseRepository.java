@@ -66,7 +66,7 @@ public class FirebaseRepository implements FirebaseContract {
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                //todo reload
+                //reload
                 mPresenter.loadEntries();
 
             }

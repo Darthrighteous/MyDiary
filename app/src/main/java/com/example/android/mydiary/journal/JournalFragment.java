@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.example.android.mydiary.R;
 import com.example.android.mydiary.addentry.AddEntryActivity;
@@ -48,7 +48,7 @@ public class JournalFragment extends Fragment implements JournalContract.View {
                         Snackbar.LENGTH_LONG).show();
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Snackbar.make(getActivity().findViewById(R.id.fab_open_new_entry),
-                        "Entry Cancelled",
+                        "Entry Deleted",
                         Snackbar.LENGTH_LONG).show();
             }
         } else if (requestCode == AddEntryActivity.REQUEST_EDIT_ENTRY) {
@@ -94,7 +94,16 @@ public class JournalFragment extends Fragment implements JournalContract.View {
         ListView journalList = rootView.findViewById(R.id.list_view_journal);
         journalList.setAdapter(mAdapter);
 
-        showProgressBar();
+        //swipe refresh
+        SwipeRefreshLayout swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_journal);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.loadEntries();
+            }
+        });
+
         return rootView;
     }
 
@@ -118,27 +127,9 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     }
 
     @Override
-    public void showProgressBar() {
-        try {
-            ProgressBar progressBar = getActivity().findViewById(R.id.progress_bar_list_view);
-            if(progressBar.getVisibility() != View.VISIBLE) {
-                progressBar.setVisibility(View.VISIBLE);
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void hideProgressBar() {
-        try {
-            ProgressBar progressBar = getActivity().findViewById(R.id.progress_bar_list_view);
-            if(progressBar.getVisibility() == View.VISIBLE){
-                progressBar.setVisibility(View.INVISIBLE);
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+    public void setLoadingIndicator(boolean loading) {
+        SwipeRefreshLayout swipeRefreshLayout = getView().findViewById(R.id.swipe_refresh_journal);
+        swipeRefreshLayout.setRefreshing(loading);
     }
 
     @Override

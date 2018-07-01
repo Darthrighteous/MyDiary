@@ -24,9 +24,7 @@ public interface JournalContract {
 
         void showAddEntryActivity();
 
-        void showProgressBar();
-
-        void hideProgressBar();
+        void setLoadingIndicator(boolean loading);
 
     }
 

@@ -1,19 +1,27 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh_journal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.mydiary.journal.JournalFragment">
 
-    <ListView
-        android:id="@+id/list_view_journal"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_journal_entry"/>
+        android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/progress_bar_list_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        <ListView
+            android:id="@+id/list_view_journal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_journal_entry"/>
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/text_no_entries"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Entries yet!"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

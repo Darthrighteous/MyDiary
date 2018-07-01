@@ -195,6 +195,9 @@ public class JournalActivity extends AppCompatActivity
         } else if (id == R.id.action_logout){
             AuthUI.getInstance().signOut(this);
             return true;
+        } else if (id == R.id.action_refresh) {
+            mJournalFragment.setLoadingIndicator(true);
+            mPresenter.loadEntries();
         }
         return super.onOptionsItemSelected(item);
     }
