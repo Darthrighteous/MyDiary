@@ -57,12 +57,6 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.start();
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -83,6 +77,12 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
     }
 
     @Override
@@ -109,7 +109,7 @@ public class AddEntryFragment extends Fragment implements AddEntryContract.View 
 
     @Override
     public void showEmptyEntryError() {
-        Snackbar.make(mEditTextBody, getString(R.string.empty_entry_message), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(mEditTextBody, getString(R.string.msg_entry_message), Snackbar.LENGTH_LONG).show();
     }
 
     @Override

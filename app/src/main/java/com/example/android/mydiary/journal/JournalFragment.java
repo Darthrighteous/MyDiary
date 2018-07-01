@@ -31,6 +31,29 @@ public class JournalFragment extends Fragment implements JournalContract.View {
 
     private JournalEntryAdapter mAdapter;
 
+    private JournalEntryAdapter.EntryClickListener mEntryClickListener = new JournalEntryAdapter.EntryClickListener() {
+        @Override
+        public void onEntryClick(JournalEntry clickedEntry) {
+            //edit entry
+            Intent editEntryIntent = new Intent(getContext(), AddEntryActivity.class);
+            Bundle editEntryBundle = new Bundle();
+            editEntryBundle.putString(JournalContract.ARGUMENT_ENTRY_DATE_CREATED,
+                    clickedEntry.getDateCreated());
+            editEntryBundle.putString(JournalContract.ARGUMENT_UNIQUE_USER_ID,
+                    mPresenter.getUId());
+            editEntryBundle.putString(JournalContract.ARGUMENT_UNIQUE_ENTRY_ID,
+                    clickedEntry.getUniqueId());
+            editEntryBundle.putString(JournalContract.ARGUMENT_ENTRY_TITLE,
+                    clickedEntry.getTitle());
+            editEntryBundle.putString(JournalContract.ARGUMENT_ENTRY_BODY,
+                    clickedEntry.getBody());
+
+            editEntryIntent.putExtra(JournalContract.BUNDLE_EDIT_ENTRY, editEntryBundle);
+
+            startActivityForResult(editEntryIntent, AddEntryActivity.REQUEST_EDIT_ENTRY);
+        }
+    };
+
     public JournalFragment() {
         // Required empty public constructor
     }
@@ -39,59 +62,7 @@ public class JournalFragment extends Fragment implements JournalContract.View {
         return new JournalFragment();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        String snackbarText = "Cancelled";
-        if (requestCode == AddEntryActivity.REQUEST_ADD_ENTRY) {
-            if(resultCode == Activity.RESULT_OK) {
-                snackbarText = "Journal Entry added";
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                snackbarText = "Cancelled";
-            }
-        } else if (requestCode == AddEntryActivity.REQUEST_EDIT_ENTRY) {
-            if(resultCode == Activity.RESULT_OK) {
-                snackbarText = "Changes saved";
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                snackbarText = "Cancelled";
-            } else if (resultCode == AddEntryActivity.RESULT_DELETED) {
-                snackbarText ="Entry Deleted";
-            }
-        }
-
-        try {
-            Snackbar.make(getActivity().findViewById(R.id.fab_open_new_entry),
-                    snackbarText,
-                    Snackbar.LENGTH_LONG).show();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    JournalEntryAdapter.EntryClickListener mEntryClickListener = new JournalEntryAdapter.EntryClickListener() {
-        @Override
-        public void onEntryClick(JournalEntry clickedEntry) {
-            //edit entry
-            Intent editEntryIntent = new Intent(getContext(), AddEntryActivity.class);
-            Bundle editEntryBundle = new Bundle();
-            editEntryBundle.putString(JournalContract.ENTRY_DATE_CREATED, clickedEntry.getDateCreated());
-            editEntryBundle.putString(JournalContract.UNIQUE_USER_ID, mPresenter.getUId());
-            editEntryBundle.putString(JournalContract.UNIQUE_ENTRY_ID, clickedEntry.getUniqueId());
-            editEntryBundle.putString(JournalContract.ENTRY_TITLE, clickedEntry.getTitle());
-            editEntryBundle.putString(JournalContract.ENTRY_BODY, clickedEntry.getBody());
-
-            editEntryIntent.putExtra(JournalContract.EDIT_ENTRY_BUNDLE, editEntryBundle);
-
-
-            editEntryIntent.putExtra(JournalContract.UNIQUE_USER_ID, mPresenter.getUId());
-            editEntryIntent.putExtra(JournalContract.UNIQUE_ENTRY_ID, clickedEntry.getUniqueId());
-            editEntryIntent.putExtra(JournalContract.ENTRY_TITLE, clickedEntry.getTitle());
-            editEntryIntent.putExtra(JournalContract.ENTRY_BODY, clickedEntry.getBody());
-
-            startActivityForResult(editEntryIntent, AddEntryActivity.REQUEST_EDIT_ENTRY);
-        }
-    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,6 +103,41 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        String snackbarText = "Cancelled";
+        if (requestCode == AddEntryActivity.REQUEST_ADD_ENTRY) {
+            if(resultCode == Activity.RESULT_OK) {
+                snackbarText = "Journal Entry added";
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                snackbarText = "Cancelled";
+            }
+        } else if (requestCode == AddEntryActivity.REQUEST_EDIT_ENTRY) {
+            if(resultCode == Activity.RESULT_OK) {
+                snackbarText = "Changes saved";
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                snackbarText = "Cancelled";
+            } else if (resultCode == AddEntryActivity.RESULT_DELETED) {
+                snackbarText ="Entry Deleted";
+            }
+        }
+
+        try {
+            Snackbar.make(getActivity().findViewById(R.id.fab_open_new_entry),
+                    snackbarText,
+                    Snackbar.LENGTH_LONG).show();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setPresenter(JournalContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         mPresenter.loadEntries();
@@ -154,10 +160,9 @@ public class JournalFragment extends Fragment implements JournalContract.View {
     @Override
     public void showAddEntryActivity() {
         Intent addEntryIntent = new Intent(getContext(), AddEntryActivity.class);
-        addEntryIntent.putExtra(JournalContract.UNIQUE_USER_ID, mPresenter.getUId());
+        addEntryIntent.putExtra(JournalContract.ARGUMENT_UNIQUE_USER_ID, mPresenter.getUId());
         startActivityForResult(addEntryIntent, AddEntryActivity.REQUEST_ADD_ENTRY);
     }
-
 
     @Override
     public void showNoEntriesMessage(boolean show) {
@@ -183,11 +188,6 @@ public class JournalFragment extends Fragment implements JournalContract.View {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void setPresenter(JournalContract.Presenter presenter) {
-        mPresenter = presenter;
     }
 
 }

@@ -13,12 +13,12 @@ import java.util.List;
 
 public interface JournalContract {
     int RC_SIGN_IN = 25;
-    String UNIQUE_USER_ID = "user-uid";
-    String UNIQUE_ENTRY_ID = "entry-uid";
-    String ENTRY_TITLE = "entry-title";
-    String ENTRY_BODY = "entry-body";
-    String ENTRY_DATE_CREATED = "entry-date-created";
-    String EDIT_ENTRY_BUNDLE = "entry-bundle";
+    String ARGUMENT_UNIQUE_USER_ID = "user-uid";
+    String ARGUMENT_UNIQUE_ENTRY_ID = "entry-uid";
+    String ARGUMENT_ENTRY_TITLE = "entry-title";
+    String ARGUMENT_ENTRY_BODY = "entry-body";
+    String ARGUMENT_ENTRY_DATE_CREATED = "entry-date-created";
+    String BUNDLE_EDIT_ENTRY = "entry-bundle";
 
     interface View extends BaseView<Presenter> {
 

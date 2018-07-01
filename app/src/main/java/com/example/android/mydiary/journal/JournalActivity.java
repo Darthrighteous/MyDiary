@@ -32,22 +32,22 @@ import java.util.List;
 public class JournalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //layout variables
     private DrawerLayout mDrawer;
-
     private NavigationView mNavigationView;
 
+    //Presenter and Fragment variables
+    private JournalPresenter mPresenter;
     private JournalFragment mJournalFragment;
 
     //Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
-    //authentication providers
-    private List<AuthUI.IdpConfig> providers = Arrays.asList(
+    //authentication mProviders
+    private List<AuthUI.IdpConfig> mProviders = Arrays.asList(
             new AuthUI.IdpConfig.EmailBuilder().build(),
             new AuthUI.IdpConfig.GoogleBuilder().build() );
-
-    private JournalPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,13 +110,13 @@ public class JournalActivity extends AppCompatActivity
         //initialize the fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         mJournalFragment = (JournalFragment) fragmentManager
-                .findFragmentById(R.id.contentFrame);
+                .findFragmentById(R.id.frame_content);
         if (mJournalFragment == null) {
             //Create the journal fragment
             mJournalFragment = JournalFragment.newInstance();
 
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.add(R.id.contentFrame, mJournalFragment);
+            transaction.add(R.id.frame_content, mJournalFragment);
             transaction.commit();
         }
 
@@ -139,7 +139,7 @@ public class JournalActivity extends AppCompatActivity
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
                                     .setIsSmartLockEnabled(false)
-                                    .setAvailableProviders(providers)
+                                    .setAvailableProviders(mProviders)
                                     .build(),
                             JournalContract.RC_SIGN_IN);
 
@@ -148,31 +148,26 @@ public class JournalActivity extends AppCompatActivity
         };
     }
 
-
-
-    private void onSignedInInitialize(FirebaseUser user) {
-        //display nav bar user info
-        TextView username = mNavigationView.getHeaderView(0).
-                findViewById(R.id.text_username);
-        username.setText(user.getDisplayName());
-        TextView email = mNavigationView.getHeaderView(0).
-                findViewById(R.id.text_email_address);
-        email.setText(user.getEmail());
-
-        mPresenter.setUser(user);
-    }
-
-    private void onSignedOutCleanup() {
-        //TODO cleanup
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == JournalContract.RC_SIGN_IN) {
+            if(resultCode == Activity.RESULT_OK){
+                Snackbar.make(findViewById(R.id.fab_open_new_entry),
+                        getString(R.string.sign_in_success_message),
+                        Snackbar.LENGTH_LONG).show();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(this, getString(R.string.sign_in_cancel_message), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
     }
 
     @Override
-    public void onBackPressed() {
-        if (mDrawer.isDrawerOpen(GravityCompat.START)){
-            mDrawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+
     }
 
     @Override
@@ -224,25 +219,12 @@ public class JournalActivity extends AppCompatActivity
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == JournalContract.RC_SIGN_IN) {
-            if(resultCode == Activity.RESULT_OK){
-                Snackbar.make(findViewById(R.id.fab_open_new_entry),
-                        getString(R.string.sign_in_success_message),
-                        Snackbar.LENGTH_LONG).show();
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, getString(R.string.sign_in_cancel_message), Toast.LENGTH_SHORT).show();
-                finish();
-            }
+    public void onBackPressed() {
+        if (mDrawer.isDrawerOpen(GravityCompat.START)){
+            mDrawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-
     }
 
     @Override
@@ -252,5 +234,21 @@ public class JournalActivity extends AppCompatActivity
             mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
         }
         mPresenter.stop();
+    }
+
+    private void onSignedInInitialize(FirebaseUser user) {
+        //display nav bar user info
+        TextView username = mNavigationView.getHeaderView(0).
+                findViewById(R.id.text_username);
+        username.setText(user.getDisplayName());
+        TextView email = mNavigationView.getHeaderView(0).
+                findViewById(R.id.text_email_address);
+        email.setText(user.getEmail());
+
+        mPresenter.setUser(user);
+    }
+
+    private void onSignedOutCleanup() {
+        //TODO cleanup
     }
 }

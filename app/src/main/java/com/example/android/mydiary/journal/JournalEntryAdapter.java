@@ -24,32 +24,12 @@ public class JournalEntryAdapter extends ArrayAdapter<JournalEntry> {
     private EntryClickListener entryClickListener;
 
 
-    public JournalEntryAdapter(@NonNull Context context, int resource,
-                               @NonNull List<JournalEntry> objects, EntryClickListener listener) {
+    JournalEntryAdapter(@NonNull Context context, int resource,
+                        @NonNull List<JournalEntry> objects, EntryClickListener listener) {
         super(context, resource, objects);
         setList(objects);
         entryClickListener = listener;
 
-    }
-
-    public void setList(List<JournalEntry> list) {
-        mList = list;
-    }
-
-    public void updateData (List<JournalEntry> list) {
-        setList(list);
-        notifyDataSetChanged();
-    }
-
-    @Nullable
-    @Override
-    public JournalEntry getItem(int position) {
-        return mList.get(position);
-    }
-
-    @Override
-    public int getCount() {
-        return mList.size();
     }
 
     @NonNull
@@ -85,6 +65,26 @@ public class JournalEntryAdapter extends ArrayAdapter<JournalEntry> {
         });
 
         return newView;
+    }
+
+    @Nullable
+    @Override
+    public JournalEntry getItem(int position) {
+        return mList.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return mList.size();
+    }
+
+    private void setList(List<JournalEntry> list) {
+        mList = list;
+    }
+
+    void updateData(List<JournalEntry> list) {
+        setList(list);
+        notifyDataSetChanged();
     }
 
     public interface EntryClickListener {

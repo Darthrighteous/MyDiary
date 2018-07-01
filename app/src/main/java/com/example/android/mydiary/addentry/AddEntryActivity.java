@@ -36,26 +36,26 @@ public class AddEntryActivity extends AppCompatActivity {
         //setup fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         AddEntryFragment fragment = (AddEntryFragment)
-                fragmentManager.findFragmentById(R.id.contentFrame);
+                fragmentManager.findFragmentById(R.id.frame_content);
 
         if(fragment == null) {
             fragment = AddEntryFragment.newInstance();
         }
 
         fragmentManager.beginTransaction()
-                .replace(R.id.contentFrame, fragment)
+                .replace(R.id.frame_content, fragment)
                 .commit();
 
-        String userUId = getIntent().getStringExtra(JournalContract.UNIQUE_USER_ID);
+        String userUId = getIntent().getStringExtra(JournalContract.ARGUMENT_UNIQUE_USER_ID);
 
-        if (getIntent().hasExtra(JournalContract.UNIQUE_ENTRY_ID)) {
+        if (getIntent().hasExtra(JournalContract.ARGUMENT_UNIQUE_ENTRY_ID)) {
             //edit entry case
-            Bundle bundle = getIntent().getBundleExtra(JournalContract.EDIT_ENTRY_BUNDLE);
+            Bundle bundle = getIntent().getBundleExtra(JournalContract.BUNDLE_EDIT_ENTRY);
 
-            String entryUId = bundle.getString(JournalContract.UNIQUE_ENTRY_ID);
-            String entryTitle = bundle.getString(JournalContract.ENTRY_TITLE);
-            String entryBody = bundle.getString(JournalContract.ENTRY_BODY);
-            String entryDateCreated = bundle.getString(JournalContract.ENTRY_DATE_CREATED);
+            String entryUId = bundle.getString(JournalContract.ARGUMENT_UNIQUE_ENTRY_ID);
+            String entryTitle = bundle.getString(JournalContract.ARGUMENT_ENTRY_TITLE);
+            String entryBody = bundle.getString(JournalContract.ARGUMENT_ENTRY_BODY);
+            String entryDateCreated = bundle.getString(JournalContract.ARGUMENT_ENTRY_DATE_CREATED);
 
             try{
                 actionBar.setTitle("Edit Entry");

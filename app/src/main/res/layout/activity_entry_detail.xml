@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <FrameLayout
-            android:id="@+id/contentFrame"
+            android:id="@+id/frame_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
             app:fabSize="normal"
-            app:layout_anchor="@id/contentFrame"
+            app:layout_anchor="@id/frame_content"
             app:layout_anchorGravity="bottom|right|end" />
     </android.support.design.widget.CoordinatorLayout>
 

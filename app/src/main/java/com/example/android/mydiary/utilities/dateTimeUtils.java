@@ -1,5 +1,7 @@
 package com.example.android.mydiary.utilities;
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -23,7 +25,8 @@ public class dateTimeUtils {
 
     public static String getDateString() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm 'on' dd-MM-yyyy ");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf =
+                new SimpleDateFormat("HH:mm 'on' dd-MM-yyyy ");
 
         Date date = new Date(getLocalTime());
 

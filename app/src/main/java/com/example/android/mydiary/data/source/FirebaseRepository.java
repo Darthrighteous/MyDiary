@@ -29,14 +29,12 @@ public class FirebaseRepository implements FirebaseContract {
 
     private List<JournalEntry> mEntries = new ArrayList<>();
 
-    private String mUserUId;
-
     public FirebaseRepository(String userUId, JournalPresenter presenter) {
-        mUserUId = userUId;
+        
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserEntryReference = mFirebaseDatabase.getReference()
                 .child("users")
-                .child(mUserUId)
+                .child(userUId)
                 .child("entries");
 
         mPresenter = presenter;
